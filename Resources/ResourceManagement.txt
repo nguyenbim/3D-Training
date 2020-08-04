@@ -1,0 +1,35 @@
+#Models: 2
+ID 0
+FILE "models\model1.nfg"
+ID 1
+FILE"models\model2.nfg"
+
+#2D Textures: 3
+ID 0
+FILE "textures\texture1.tga"
+TILING CLAMP
+ID 1
+FILE "textures\texture2.tga"
+TILING REPEAT
+ID 2
+FILE "textures\texture3.tga"
+TILING REPEAT
+
+#Cube Textures: 1
+ID 0
+FILE "textures\cubeTex1.tga"
+TILING CLAMP
+
+#Shaders: 2
+ID 0
+VS "shaders\vertShader1.vs"
+FS "shaders\fragShader1.fs"
+STATES 2
+STATE CULLING
+STATE DEPTH_TEST
+ID 1
+VS "shaders\vertShader2.vs"
+FS "shaders\fragShader2.fs"
+STATES 2
+STATE DEPTH_TEST
+STATE ALPHA
