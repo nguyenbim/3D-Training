@@ -5,16 +5,17 @@
 
 using namespace std;
 
-Camera* Camera::s_Instance = NULL;
 
 Camera::Camera() {};
+void Camera::SetCamera(float Fov, float AspectRatio, float Near, float Far, float Speed) {
+	m_FOV = float(Fov*3.14/180);
+	m_AspectRatio = AspectRatio;
+	m_NearPlane = Near;
+	m_FarPlane = Far;
+	m_Speed = Speed;
+}
 Camera::~Camera() {};
 
-Camera* Camera::GetInstance() {
-	if (!s_Instance)
-		s_Instance = new Camera;
-	return s_Instance;
-}
 
 Matrix Camera::GetTranslationMatrix() {
 	return m_TranslationMatrix.SetTranslation(m_Position.x, m_Position.y, m_Position.z);
@@ -43,7 +44,7 @@ Matrix Camera::GetWorldMatrix() {
 	return GetRotationMatrix()*GetTranslationMatrix();
 }
 Matrix Camera::GetProjectionMatrix() {
-	return m_ProjectionMatrix.SetPerspective(FOV, AspectRatio, NearPlane, FarPlane);
+	return m_ProjectionMatrix.SetPerspective(m_FOV, m_AspectRatio, m_NearPlane, m_FarPlane);
 }
 
 

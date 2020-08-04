@@ -1,52 +1,82 @@
 #include <stdafx.h>
 #include"Object.h"
 
-Object::Object() {
-	m_Test_texture = new Texture();
-	m_Test_model = new Model();
 
-	ObjectRotation.x = 0;
-	ObjectRotation.y = 0;
-	ObjectRotation.z =0;
+Object::Object() {};
 
-	ScaleMatrix.SetScale(Vector3(0.5f,0.5f,0.5f));
+Object::Object(const Object& oCopy) {
+	m_ID = oCopy.m_ID;
+	m_ModelID = oCopy.m_ModelID;
+	m_vTextureID = oCopy.m_vTextureID;
 
-	Matrix RotationMatrixX, RotationMatrixY, RotationMatrixZ;
-	RotationMatrixX.SetRotationAngleAxis(ObjectRotation.x * (3.14 / 180), 1.0f, 0.0f, 0.0f);
-	RotationMatrixY.SetRotationAngleAxis(ObjectRotation.y * (3.14 / 180), 0.0f, 1.0f, 0.0f);
-	RotationMatrixZ.SetRotationAngleAxis(ObjectRotation.z * (3.14 / 180), 0.0f, 0.0f, 1.0f);
-	RotationMatrix = RotationMatrixZ * RotationMatrixX * RotationMatrixY;
-	TranslationMatrix.SetTranslation(0.0f, -0.5f, 0.0f);	
-};
+	m_WorldLocation.x = oCopy.m_WorldLocation.x;	m_WorldLocation.y = oCopy.m_WorldLocation.y;	m_WorldLocation.z = oCopy.m_WorldLocation.z;
+	m_ObjectRotation.x = oCopy.m_ObjectRotation.x;	m_ObjectRotation.y = oCopy.m_ObjectRotation.y;	m_ObjectRotation.z = oCopy.m_ObjectRotation.z;
+	m_ObjectScale.x = oCopy.m_ObjectScale.x;	m_ObjectScale.y = oCopy.m_ObjectScale.y;	m_ObjectScale.z = oCopy.m_ObjectScale.z;
+
+	FlagChanges();
+	Update();
+
+}
 Object::~Object() {};
 
-
-void Object::LoadModel(string strFilePath) {
-	m_Test_model->LoadModel(strFilePath);
-}
-void Object::LoadTexture(string strFilePath) {
-	m_Test_texture->LoadTexture(strFilePath);
+int* Object::GetID() {
+	return &m_ID;
 }
 
-Model* Object::GetModel() {
-	return m_Test_model;
+int* Object::GetModelID() {
+	return &m_ModelID;
 }
 
-GLuint* Object::GetVBO() {
-	return m_Test_model->GetVBOId();
+std::vector<int>* Object::GetTextureID() {
+	return &m_vTextureID;
 }
 
-GLuint* Object::GetIBO() {
-	return m_Test_model->GetIBOId();
+int* Object::GetCubeTextureID() {
+	return &m_CubeTextureID;
 }
 
-GLuint* Object::GetTexture() {
-	return m_Test_texture->GetTexId();
+int* Object::GetShaderID() {
+	return &m_ShaderID;
 }
-Matrix Object::GetWVP() {
-	WorldMatrix.SetIdentity();
-	ViewMatrix = Camera::GetInstance()->GetViewMatrix();
-	ProjectionMatrix = Camera::GetInstance()->GetProjectionMatrix();
-	WorldMatrix =ScaleMatrix * RotationMatrix * TranslationMatrix;
-	return WorldMatrix * ViewMatrix * ProjectionMatrix;
+
+Matrix Object::GetWorldMatrix() {
+	return m_WorldMatrix;
+}
+
+void Object::FlagChanges() {
+	if (!m_IsAttributeChanged) m_IsAttributeChanged = true;
+}
+
+//void Object::Update() {};
+
+void Object::Update() {
+	if (m_IsAttributeChanged) {
+		m_ScaleMatrix.SetScale(m_ObjectScale);
+
+		Matrix RotationMatrixX, RotationMatrixY, RotationMatrixZ;
+		RotationMatrixX.SetRotationAngleAxis(m_ObjectRotation.x * (3.14f / 180.0f), 1, 0, 0);
+		RotationMatrixY.SetRotationAngleAxis(m_ObjectRotation.y * (3.14f / 180.0f), 0, 1, 0);
+		RotationMatrixZ.SetRotationAngleAxis(m_ObjectRotation.z * (3.14f / 180.0f), 0, 0, 1);
+		m_RotationMatrix = RotationMatrixZ * RotationMatrixX * RotationMatrixY;
+
+		m_TranslationMatrix.SetTranslation(m_WorldLocation);
+
+		m_WorldMatrix.SetIdentity();
+		m_WorldMatrix = m_WorldMatrix * m_ScaleMatrix * m_RotationMatrix * m_TranslationMatrix;
+
+		m_IsAttributeChanged = false;
+	}
+}
+
+
+Vector3* Object::GetLocation() {
+	return &m_WorldLocation;
+}
+
+Vector3* Object::GetRotation() {
+	return &m_ObjectRotation;
+}
+
+Vector3* Object::GetScale() {
+	return &m_ObjectScale;
 }

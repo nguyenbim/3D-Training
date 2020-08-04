@@ -4,15 +4,14 @@
 #include"Singleton.h"
 
 #pragma once
-class Camera{
+class Camera : public Singleton<Camera>{
 private:
-	static Camera* s_Instance;
 
 	//Attributes for Projection Matrix
-	float FOV = float(45*3.14/180);
-	float AspectRatio = 4.0f / 3.0f;
-	float NearPlane = 0.1f;
-	float FarPlane = 100.0f;
+	float m_FOV = float(45*3.14/180);
+	float m_AspectRatio = 4.0f / 3.0f;
+	float m_NearPlane = 0.1f;
+	float m_FarPlane = 100.0f;
 
 	//Attributes for camera speed
 	float m_Speed = 10.0f;
@@ -30,6 +29,7 @@ private:
 
 public:
 	Camera();
+	void SetCamera(float Fov, float AspectRatio, float Near, float Far, float Speed);
 	~Camera();
 	void MoveForward(float deltaTime);
 	void MoveBack(float deltaTime);
@@ -49,8 +49,5 @@ public:
 	Matrix GetProjectionMatrix();
 	Matrix GetTranslationMatrix();
 	Matrix GetRotationMatrix();
-	//void SetViewMatrix();
-
-	static Camera* GetInstance();
 
 };

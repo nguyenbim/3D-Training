@@ -1,14 +1,3 @@
-c:\users\khang\onedrive\desktop\trainingframework3d\trainingframework3d\utilities\debug\utilities.pch
-c:\users\khang\onedrive\desktop\trainingframework3d\trainingframework3d\utilities\debug\utilities.pdb
-c:\users\khang\onedrive\desktop\trainingframework3d\trainingframework3d\utilities\debug\utilities.idb
-c:\users\khang\onedrive\desktop\trainingframework3d\trainingframework3d\utilities\debug\stdafx.obj
-c:\users\khang\onedrive\desktop\trainingframework3d\trainingframework3d\utilities\debug\esshader.obj
-c:\users\khang\onedrive\desktop\trainingframework3d\trainingframework3d\utilities\debug\esutil.obj
-c:\users\khang\onedrive\desktop\trainingframework3d\trainingframework3d\utilities\debug\esutil_win.obj
-c:\users\khang\onedrive\desktop\trainingframework3d\trainingframework3d\utilities\debug\math.obj
-c:\users\khang\onedrive\desktop\trainingframework3d\trainingframework3d\utilities\debug\memorymanager.obj
-c:\users\khang\onedrive\desktop\trainingframework3d\trainingframework3d\utilities\debug\memoryoperators.obj
-c:\users\khang\onedrive\desktop\trainingframework3d\trainingframework3d\utilities\debug\tga.obj
 f:\gl internship\trainingframework3d\trainingframework3d\utilities\debug\utilities.pch
 f:\gl internship\trainingframework3d\trainingframework3d\utilities\debug\utilities.pdb
 f:\gl internship\trainingframework3d\trainingframework3d\utilities\debug\utilities.idb
@@ -20,12 +9,23 @@ f:\gl internship\trainingframework3d\trainingframework3d\utilities\debug\math.ob
 f:\gl internship\trainingframework3d\trainingframework3d\utilities\debug\memorymanager.obj
 f:\gl internship\trainingframework3d\trainingframework3d\utilities\debug\memoryoperators.obj
 f:\gl internship\trainingframework3d\trainingframework3d\utilities\debug\tga.obj
-c:\users\khang\onedrive\desktop\trainingframework3d\trainingframework3d\debug\utilities.lib
+f:\github\3d-training\utilities\debug\utilities.pch
+f:\github\3d-training\utilities\debug\utilities.pdb
+f:\github\3d-training\utilities\debug\utilities.idb
+f:\github\3d-training\utilities\debug\stdafx.obj
+f:\github\3d-training\utilities\debug\esshader.obj
+f:\github\3d-training\utilities\debug\esutil.obj
+f:\github\3d-training\utilities\debug\esutil_win.obj
+f:\github\3d-training\utilities\debug\math.obj
+f:\github\3d-training\utilities\debug\memorymanager.obj
+f:\github\3d-training\utilities\debug\memoryoperators.obj
+f:\github\3d-training\utilities\debug\tga.obj
 f:\gl internship\trainingframework3d\trainingframework3d\debug\utilities.lib
-f:\gl internship\trainingframework3d\trainingframework3d\debug\utilities.pdb
-f:\gl internship\trainingframework3d\trainingframework3d\utilities\debug\utilities.tlog\cl.command.1.tlog
-f:\gl internship\trainingframework3d\trainingframework3d\utilities\debug\utilities.tlog\cl.read.1.tlog
-f:\gl internship\trainingframework3d\trainingframework3d\utilities\debug\utilities.tlog\cl.write.1.tlog
-f:\gl internship\trainingframework3d\trainingframework3d\utilities\debug\utilities.tlog\lib-link.read.1.tlog
-f:\gl internship\trainingframework3d\trainingframework3d\utilities\debug\utilities.tlog\lib-link.write.1.tlog
-f:\gl internship\trainingframework3d\trainingframework3d\utilities\debug\utilities.tlog\lib.command.1.tlog
+f:\github\3d-training\debug\utilities.lib
+f:\github\3d-training\debug\utilities.pdb
+f:\github\3d-training\utilities\debug\utilities.tlog\cl.command.1.tlog
+f:\github\3d-training\utilities\debug\utilities.tlog\cl.read.1.tlog
+f:\github\3d-training\utilities\debug\utilities.tlog\cl.write.1.tlog
+f:\github\3d-training\utilities\debug\utilities.tlog\lib-link.read.1.tlog
+f:\github\3d-training\utilities\debug\utilities.tlog\lib-link.write.1.tlog
+f:\github\3d-training\utilities\debug\utilities.tlog\lib.command.1.tlog

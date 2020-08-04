@@ -1,24 +1,25 @@
-#include"stdafx.h"
-#include<vector>
-#include "../Utilities/utilities.h"
-#include"Object.h"
-#include"Camera.h"
-
 #pragma once
+
+#include "stdafx.h"
+#include<vector>
+#include "../Utilities/utilities.h" // if you use STL, please include this line AFTER all other include
+#include "ResourceManagement.h"
+#include "Singleton.h"
+#include "Object.h"
+#include "Camera.h"
+
 using namespace std;
 
-class SceneManagement
-{
-private:
-	static SceneManagement* s_Instance;
-	SceneManagement();
+class SceneManagement : public Singleton<SceneManagement> {
 public:
-	vector<Object *> m_vListObject;
-	
+	SceneManagement();
 	~SceneManagement();
-	void Update(float deltaTime);
-	void Render();
-	void AddObject(Object *object);
-	void Init();
-	static SceneManagement* GetInstance();
+
+	void InitWithFile(string strFilePath);
+
+	void Update(float DeltaTime);
+	void Draw();
+private:
+	int m_ObjectCount = 0;
+	vector<Object> m_vObjects;
 };

@@ -9,135 +9,140 @@
 #include <conio.h>
 #include"Object.h"
 #include"Singleton.h"
+#include"ResourceManagement.h"
+#include"SceneManagement.h"
 
-Object* test_object = new Object;
 Shaders myShaders;
 
-bool bMoveForward, bMoveBackward, bMoveLeft, bMoveRight;
-bool bRotateUp, bRotateDown, bRotateLeft, bRotateRight;
+
+unsigned int uiKeysPressed;
+
 int Init ( ESContext *esContext )
 {
-	glClearColor ( 1.0f, 1.0f, 1.0f, 1.0f );
-	glEnable(GL_DEPTH_TEST);
+	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 	
-	//buffer object
-	test_object->LoadModel("../Resources/Models/Woman1.nfg");
-	test_object->LoadTexture("../Resources/Textures/Woman1.tga");
+	
+	ResourceManagement::GetInstance()->InitWithFile("../Resources/RM.txt");
+	SceneManagement::GetInstance()->InitWithFile("../Resources/SM.txt");
 
-	//creation of shaders and program 
+	//graCamera = &SMInstance->m_Camera;
+
+	// Creation of shaders and program 
 	return myShaders.Init("../Resources/Shaders/TriangleShaderVS.vs", "../Resources/Shaders/TriangleShaderFS.fs");
-
 }
 
 void Draw ( ESContext *esContext )
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	Matrix WVP = test_object->GetWVP();
-	glUseProgram(myShaders.program);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *test_object->GetIBO());
-	glBindBuffer(GL_ARRAY_BUFFER, *test_object->GetVBO());
-	glBindTexture(GL_TEXTURE_2D, *test_object->GetTexture());
-	if (myShaders.WVPLoc != -1) {
-		glUniformMatrix4fv(myShaders.WVPLoc, 1, GL_FALSE,&WVP.m[0][0]);	
-	}
-
-	if (myShaders.positionAttribute != -1) {
-		glEnableVertexAttribArray(myShaders.positionAttribute);
-		glVertexAttribPointer(myShaders.positionAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
-	}
-	if (myShaders.uvAttribute != -1) {
-		glEnableVertexAttribArray(myShaders.uvAttribute);
-		glVertexAttribPointer(myShaders.uvAttribute, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex),(char*)0+sizeof(Vector3)*4);
-	}
-	
-
-	
-	glDrawElements(GL_TRIANGLES, test_object->GetModel()->GetNIndices(), GL_UNSIGNED_INT, 0);
-
-	
-	glDrawArrays(GL_TRIANGLES, 0, 3);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glBindTexture(GL_TEXTURE_2D, 0);
-
+	SceneManagement::GetInstance()->Draw();
 
 	eglSwapBuffers ( esContext->eglDisplay, esContext->eglSurface );
 }
 
-void Update(ESContext *esContext, float deltaTime)
-{
-	if (bMoveForward) {
-		bMoveForward = false;
-		Camera::GetInstance()->MoveForward(deltaTime);
+void ClearBit(unsigned int* uiKeysPressed, int iPosition) {
+	*uiKeysPressed &= ~(1 << iPosition);
+}
+
+void SetBit(unsigned int* uiKeysPressed, int iPosition) {
+	*uiKeysPressed |= 1 << iPosition;
+}
+
+bool GetBit(unsigned int* uiKeysPressed, int iPosition) {
+	unsigned int bBit = *uiKeysPressed & (1 << iPosition);
+	if (bBit == 0) {
+		return false;
 	}
-	if (bMoveBackward) {
-		bMoveBackward = false;
-		Camera::GetInstance()->MoveBack(deltaTime);
-	}
-	if (bMoveLeft) {
-		bMoveLeft = false;
-		Camera::GetInstance()->MoveLeft(deltaTime);
-	}
-	if (bMoveRight) {
-		bMoveRight = false;
-		Camera::GetInstance()->MoveRight(deltaTime);
-	}
-	if (bRotateUp) {
-		bRotateUp = false;
-		Camera::GetInstance()->RotateUp(deltaTime);
-	}
-	if (bRotateDown) {
-		bRotateDown = false;
-		Camera::GetInstance()->RotateDown(deltaTime);
-	}
-	if (bRotateLeft) {
-		bRotateLeft = false;
-		Camera::GetInstance()->RotateLeft(deltaTime);
-	}
-	if (bRotateRight) {
-		bRotateRight = false;
-		Camera::GetInstance()->RotateRight(deltaTime);
+	else {
+		return true;
 	}
 }
 
-void Key ( ESContext *esContext, unsigned char key, bool bIsPressed)
+
+void Update(ESContext *esContext, float deltaTime)
 {
-	if (key == VK_UP && bIsPressed && !bMoveForward) {
-		bMoveForward = true;
+	if (GetBit(&uiKeysPressed, 0)) {
+		ClearBit(&uiKeysPressed, 0);
+		Camera::GetInstance()->MoveForward(deltaTime);
+	}
+	if (GetBit(&uiKeysPressed, 1)) {
+		ClearBit(&uiKeysPressed, 1);
+		Camera::GetInstance()->MoveBack(deltaTime);
+	}
+	if (GetBit(&uiKeysPressed, 2)) {
+		ClearBit(&uiKeysPressed, 2);
+		Camera::GetInstance()->MoveLeft(deltaTime);
+	}
+	if (GetBit(&uiKeysPressed, 3)) {
+		ClearBit(&uiKeysPressed, 3);
+		Camera::GetInstance()->MoveRight(deltaTime);
+	}
+	if (GetBit(&uiKeysPressed, 4)) {
+		ClearBit(&uiKeysPressed, 4);
+		Camera::GetInstance()->RotateUp(deltaTime);
+	}
+	if (GetBit(&uiKeysPressed, 5)) {
+		ClearBit(&uiKeysPressed, 5);
+		Camera::GetInstance()->RotateDown(deltaTime);
+	}
+	if (GetBit(&uiKeysPressed, 6)) {
+		ClearBit(&uiKeysPressed, 6);
+		Camera::GetInstance()->RotateLeft(deltaTime);
+	}
+	if (GetBit(&uiKeysPressed, 7)) {
+		ClearBit(&uiKeysPressed, 7);
+		Camera::GetInstance()->RotateRight(deltaTime);
 	}
 
-	if (key == VK_DOWN && bIsPressed && !bMoveBackward) {
-		bMoveBackward = true;
+	
+
+	//SceneManagement::GetInstance()->Update(deltaTime);
+}
+
+void Key(ESContext* esContext, unsigned char key, bool bIsPressed)
+{
+	
+	if (key == VK_UP && bIsPressed && !GetBit(&uiKeysPressed, 0)) {
+		SetBit(&uiKeysPressed, 0);
 	}
 
-	if (key == VK_LEFT && bIsPressed && !bMoveLeft) {
-		bMoveLeft = true;
+	
+	if (key == VK_DOWN && bIsPressed && !GetBit(&uiKeysPressed, 1)) {
+		SetBit(&uiKeysPressed, 1);
 	}
 
-	if (key == VK_RIGHT && bIsPressed && !bMoveRight) {
-		bMoveRight = true;
+	
+	if (key == VK_LEFT && bIsPressed && !GetBit(&uiKeysPressed, 2)) {
+		SetBit(&uiKeysPressed, 2);
 	}
 
-	if (key == 0x57 && bIsPressed && !bRotateUp) {
-		bRotateUp = true;
+	
+	if (key == VK_RIGHT && bIsPressed && !GetBit(&uiKeysPressed, 3)) {
+		SetBit(&uiKeysPressed, 3);
 	}
 
-	if (key == 0x53 && bIsPressed && !bRotateDown) {
-		bRotateDown = true;
+	
+	if (key == 0x57 && bIsPressed && !GetBit(&uiKeysPressed, 4)) {
+		SetBit(&uiKeysPressed, 4);
 	}
 
-	if (key == 0x41 && bIsPressed && !bRotateLeft) {
-		bRotateLeft = true;
+	
+	if (key == 0x53 && bIsPressed && !GetBit(&uiKeysPressed, 5)) {
+		SetBit(&uiKeysPressed, 5);
 	}
 
-	if (key == 0x44 && bIsPressed && !bRotateRight) {
-		bRotateRight = true;
+	
+	if (key == 0x41 && bIsPressed && !GetBit(&uiKeysPressed, 6)) {
+		SetBit(&uiKeysPressed, 6);
+	}
+
+	
+	if (key == 0x44 && bIsPressed && !GetBit(&uiKeysPressed, 7)) {
+		SetBit(&uiKeysPressed, 7);
 	}
 }
 
 void CleanUp()
 {
-	glDeleteBuffers(1, test_object->GetVBO());
+	//glDeleteBuffers(1, test_object->GetVBO());
 }
 
 int _tmain(int argc, _TCHAR* argv[])
